@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Activation Real Time Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- PAGE 2: UPLOAD -->
+        <div id="page2" class="page active">
+            <div class="card">
+                <div class="header">Upload Excel Data</div>
+                <div class="toolbar">
+                    <div style="font-weight:700">Upload File</div>
+                    <div class="controls">
+                        <label for="fileInput" class="file-label">Upload Excel Raw ACT</label>
+                        <input id="fileInput" class="input-file" type="file" accept=".xlsx,.xls" multiple>
+                        <button id="viewDashboardBtn" class="btn btn-blue" disabled>Lihat Dashboard</button>
+                    </div>
+                </div>
+
+                <!-- GitHub Configuration -->
+                <div class="github-config">
+                    <h4>🌐 GitHub Storage Configuration</h4>
+                    <div style="margin-bottom: 10px;">
+                        <input type="password" id="githubToken" class="token-input" 
+                               placeholder="Masukkan GitHub Personal Access Token" 
+                               style="width: 70%; margin-right: 10px;">
+                        <button id="saveTokenBtn" class="btn btn-blue">Simpan Token</button>
+                        <button id="clearTokenBtn" class="btn" style="background: #6c757d; color: white;">Hapus Token</button>
+                    </div>
+                    <div style="font-size: 12px; color: #666;">
+                        <strong>Repo:</strong> misterglukosa-sudo/dashboard-activation<br>
+                        <strong>Branch:</strong> main<br>
+                        <strong>Folder:</strong> uploads/
+                    </div>
+                    <div id="githubStatus" style="margin-top: 10px;"></div>
+                </div>
+
+                <div class="container" id="uploadInfo" style="font-size:14px;padding:10px;">Belum ada file diunggah.</div>
+                
+                <!-- Section for saved files -->
+                <div class="container">
+                    <h3 style="color:var(--magenta-2);margin-bottom:12px;">File Tersimpan</h3>
+                    <div id="savedFilesList" class="file-list">
+                        <p id="noFilesMessage">Belum ada file yang disimpan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: DASHBOARD ASC -->
+        <div id="page3" class="page">
+            <div class="card">
+                <div class="header">Activation Real Time VIVA CLUSTER 1 - WEST JAVA</div>
+                <div class="toolbar">
+                    <div style="font-weight:700">Dashboard ASC</div>
+                    <div class="controls">
+                        <button id="detailBtn" class="btn btn-blue">Detail Aktivasi</button>
+                        <button class="btn btn-magenta" onclick="app.showPage(2)">Upload Baru</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div id="ascTableWrap"></div>
+                    <div class="note-below">📝 <b>Note:</b> Segera follow-up Team (SGS/SDS/Retail dengan nilai 0).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: DETAIL -->
+        <div id="page4" class="page">
+            <div class="card">
+                <div class="header">Activation Detail</div>
+                <div class="toolbar">
+                    <div style="font-weight:700">Filter:</div>
+                    <select id="globalFilter" class="select"><option value="ALL">All SUB CLUSTER</option></select>
+                    <select id="groupFilter" class="select">
+                        <option value="ALL">All Group</option>
+                        <option value="SGS">SGS</option>
+                        <option value="SDS">SDS</option>
+                        <option value="RETAIL">RETAIL</option>
+                    </select>
+                    <div class="controls">
+                        <button class="btn btn-blue" onclick="app.showPage(3)">Back to ASC</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row-3">
+                        <div class="col"><h4 style="color:var(--magenta-2)">SGS</h4><div id="sgsWrap"></div></div>
+                        <div class="col"><h4 style="color:var(--magenta-2)">SDS</h4><div id="sdsWrap"></div></div>
+                        <div class="col"><h4 style="color:var(--magenta-2)">Retail</h4><div id="retailWrap"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modalBackdrop" class="modal-backdrop" onclick="UIRenderer.closeModal(event)">
+        <div class="modal" role="dialog" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="UIRenderer.hideModal()">Close</button>
+            <h3 id="modalTitle">Detail Retail</h3>
+            <div id="modalContent"></div>
+            <div class="small-note">Columns: PERFORMED USER LOGIN ID | PERFORMED USER NAME | CUSTOMER MDN | CUSTOMER ICCID</div>
+        </div>
+    </div>
+
+    <script src="js/githubStorage.js"></script>
+    <script src="js/dataProcessor.js"></script>
+    <script src="js/fileManager.js"></script>
+    <script src="js/uiRenderer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
